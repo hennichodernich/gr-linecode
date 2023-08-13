@@ -1,26 +1,9 @@
 /* -*- c++ -*- */
-/* 
- * Copyright 2020 hnch@gmx.net.
- * 
- * This is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3, or (at your option)
- * any later version.
- * 
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this software; see the file COPYING.  If not, write to
- * the Free Software Foundation, Inc., 51 Franklin Street,
- * Boston, MA 02110-1301, USA.
+/*
+ * Copyright 2023 hnch@gmx.net.
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
-
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
 
 #include <gnuradio/io_signature.h>
 #include "softuart_rx_impl.h"
@@ -28,43 +11,35 @@
 namespace gr {
   namespace linecode {
 
+    using input_type = float;
+    using output_type = unsigned char;
     softuart_rx::sptr
     softuart_rx::make(unsigned int samples_per_bit, unsigned int idle_level, float threshold, unsigned int parity)
     {
-      return gnuradio::get_initial_sptr
-        (new softuart_rx_impl(samples_per_bit, idle_level, threshold, parity));
+      return gnuradio::make_block_sptr<softuart_rx_impl>(
+        samples_per_bit, idle_level, threshold, parity);
     }
+
 
     /*
      * The private constructor
      */
     softuart_rx_impl::softuart_rx_impl(unsigned int samples_per_bit, unsigned int idle_level, float threshold, unsigned int parity)
       : gr::block("softuart_rx",
-              gr::io_signature::make(1, 1, sizeof(float)),
-              gr::io_signature::make(1, 1, sizeof(unsigned char))),
+              gr::io_signature::make(1 /* min inputs */, 1 /* max inputs */, sizeof(input_type)),
+              gr::io_signature::make(1 /* min outputs */, 1 /*max outputs */, sizeof(output_type))),
 		d_spb(samples_per_bit), d_idle(idle_level), d_threshold(threshold), d_parity(parity)
     {
-    	set_history(2); // need to look at two inputs
-/*
-	if (d_idle == 0){
-		polarity = 1;
-	}
-	else if (d_idle == 1){
-		polarity = -1;
-	}
-	else{
-		d_idle = 0;
-		polarity = 0;
-	}
-	*/
-	polarity = -1;
-	d_idle = 1;
-	if(d_parity==0){
-		num_parity = 0;
-	}
-	else{
-		num_parity = 1;
-	}
+       	set_history(2); // need to look at two inputs
+
+       	polarity = -1;
+        d_idle = 1;
+        if(d_parity==0){
+            num_parity = 0;
+        }
+        else{
+            num_parity = 1;
+        }
     }
 
     /*
@@ -93,9 +68,9 @@ namespace gr {
       unsigned int out_idx = 0;
 
       while (true){
-	if((ninput_items[0] - (in_idx - 1)) < (d_spb * (1+8+num_parity+1))){
-		break;
-	}
+        if((ninput_items[0] - (in_idx - 1)) < (d_spb * (1+8+num_parity+1))){
+            break;
+        }
       	// Do <+signal processing+>
 
       	if (in_byte == false){
@@ -166,4 +141,3 @@ namespace gr {
 
   } /* namespace linecode */
 } /* namespace gr */
-
