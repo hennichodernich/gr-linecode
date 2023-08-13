@@ -1,0 +1,35 @@
+<block>
+  <name>Softuart rx</name>
+  <key>linecode_softuart_rx</key>
+  <category>[LINECODE]</category>
+  <import>import linecode</import>
+  <make>linecode.softuart_rx($samples_per_bit, $idle_level, $threshold, $parity)</make>
+  <param>
+    <name>Samples_per_bit</name>
+    <key>samples_per_bit</key>
+    <type>raw</type>
+  </param>
+  <param>
+    <name>Idle_level</name>
+    <key>idle_level</key>
+    <type>raw</type>
+  </param>
+  <param>
+    <name>Threshold</name>
+    <key>threshold</key>
+    <type>float</type>
+  </param>
+  <param>
+    <name>Parity</name>
+    <key>parity</key>
+    <type>raw</type>
+  </param>
+  <sink>
+    <name>in</name>
+    <type>float</type>
+  </sink>
+  <source>
+    <name>out</name>
+    <type>byte</type>
+  </source>
+</block>

@@ -1,0 +1,30 @@
+<block>
+  <name>Softuart tx</name>
+  <key>linecode_softuart_tx</key>
+  <category>[LINECODE]</category>
+  <import>import linecode</import>
+  <make>linecode.softuart_tx($samples_per_bit, $leading_idle_samples, $parity)</make>
+  <param>
+    <name>Samples_per_bit</name>
+    <key>samples_per_bit</key>
+    <type>raw</type>
+  </param>
+  <param>
+    <name>Leading_idle_samples</name>
+    <key>leading_idle_samples</key>
+    <type>raw</type>
+  </param>
+  <param>
+    <name>Parity</name>
+    <key>parity</key>
+    <type>raw</type>
+  </param>
+  <sink>
+    <name>in</name>
+    <type>byte</type>
+  </sink>
+  <source>
+    <name>out</name>
+    <type>byte</type>
+  </source>
+</block>
