@@ -1,5 +1,5 @@
 id: linecode_softuart_rx
-label: softuart_rx
+label: SoftUART Rx
 category: '[linecode]'
 
 templates:
@@ -13,14 +13,23 @@ templates:
 #     * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
 #     * default
 parameters:
-- id: parametername_replace_me
-  label: FIX ME:
-  dtype: string
-  default: You need to fill in your grc/linecode_softuart_rx.block.yaml
-#- id: ...
-#  label: ...
-#  dtype: ...
-
+- id: samples_per_bit
+  label: Samples per bit
+  dtype: int
+  default: 16
+- id: idle_level
+  label: Idle level
+  dtype: enum
+  options: [0, 1]
+- id: threshold
+  label: Threshold
+  dtype: float
+  default: 0.5
+- id: parity  
+  label: Parity
+  dtype: enum
+  options: [0, 1, 2]
+  option_labels: ["No", "Even", "Odd"]
 #  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
 #  Keys include:
 #      * label (an identifier for the GUI)
@@ -29,18 +38,12 @@ parameters:
 #      * vlen (optional - data stream vector length. Default is 1)
 #      * optional (optional - set to 1 for optional inputs. Default is 0)
 inputs:
-#- label: ...
-#  domain: ...
-#  dtype: ...
-#  vlen: ...
-#  optional: ...
+- label: in
+  dtype: float
 
 outputs:
-#- label: ...
-#  domain: ...
-#  dtype: ...
-#  vlen: ...
-#  optional: ...
+- label: out 
+  dtype: byte
 
 #  'file_format' specifies the version of the GRC yml format used in the file
 #  and should usually not be changed.
