@@ -31,7 +31,7 @@ list(APPEND linecode_python_files
     softuart_rx_python.cc
     softuart_tx_python.cc
     diff_manch_dec_python.cc
-    python_bindings.cc)
+    correlate_symbol_seq_tag_ff_python.cc python_bindings.cc)
 
 GR_PYBIND_MAKE_OOT(linecode
    ../..

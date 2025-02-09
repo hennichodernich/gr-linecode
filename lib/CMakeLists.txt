@@ -14,7 +14,7 @@ list(APPEND linecode_sources
     softuart_rx_impl.cc
     softuart_tx_impl.cc
     diff_manch_dec_impl.cc
-    )
+    correlate_symbol_seq_tag_ff_impl.cc )
 
 set(linecode_sources "${linecode_sources}" PARENT_SCOPE)
 if(NOT linecode_sources)
@@ -23,7 +23,9 @@ if(NOT linecode_sources)
 endif(NOT linecode_sources)
 
 add_library(gnuradio-linecode SHARED ${linecode_sources})
-target_link_libraries(gnuradio-linecode gnuradio::gnuradio-runtime)
+target_link_libraries(gnuradio-linecode
+       gnuradio::gnuradio-runtime
+       gnuradio::gnuradio-filter)
 target_include_directories(gnuradio-linecode
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
     PUBLIC $<INSTALL_INTERFACE:include>

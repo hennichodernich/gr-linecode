@@ -73,9 +73,13 @@ ENDIF()
 ########################################################################
 # Install directories
 ########################################################################
-find_package(Gnuradio "3.9" REQUIRED)
-include(GrVersion)
+set(GR_COMPONENTS blocks filter fft)
+find_package(Gnuradio "3.9" COMPONENTS ${GR_COMPONENTS})
+if(NOT Gnuradio_FOUND)
+    message(FATAL_ERROR "Unable to find GNURadio")
+endif(NOT Gnuradio_FOUND)
 
+include(GrVersion)
 include(GrPlatform) #define LIB_SUFFIX
 
 if(NOT CMAKE_MODULES_DIR)

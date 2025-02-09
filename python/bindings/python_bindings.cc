@@ -24,6 +24,7 @@ namespace py = pybind11;
     void bind_softuart_rx(py::module& m);
     void bind_softuart_tx(py::module& m);
     void bind_diff_manch_dec(py::module& m);
+    void bind_correlate_symbol_seq_tag_ff(py::module& m);
 // ) END BINDING_FUNCTION_PROTOTYPES
 
 
@@ -55,5 +56,6 @@ PYBIND11_MODULE(linecode_python, m)
     bind_softuart_rx(m);
     bind_softuart_tx(m);
     bind_diff_manch_dec(m);
+    bind_correlate_symbol_seq_tag_ff(m);
     // ) END BINDING_FUNCTION_CALLS
 }

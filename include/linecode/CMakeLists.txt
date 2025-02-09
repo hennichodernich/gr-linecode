@@ -14,5 +14,5 @@ install(FILES
     softuart_rx.h
     softuart_tx.h
     diff_manch_dec.h
-    DESTINATION include/linecode
+    correlate_symbol_seq_tag_ff.h DESTINATION include/linecode
 )

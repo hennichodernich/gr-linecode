@@ -1,0 +1,53 @@
+id: linecode_correlate_symbol_seq_tag_xx
+label: Correlate Symbol Sequence - Tag
+category: '[linecode]'
+
+parameters:
+-   id: type
+    label: IO Type
+    dtype: enum
+    options: [float]
+    option_attributes:
+        fcn: [ff]
+    hide: part
+-   id: symbols 
+    label: Symbol vector
+    dtype: float_vector 
+-   id: threshold
+    label: Threshold
+    dtype: float
+-   id: tagname
+    label: Tag Name
+    dtype: string
+
+inputs:
+-   domain: stream
+    dtype: ${ type } 
+
+outputs:
+-   domain: stream
+    dtype: ${ type }
+
+templates:
+    imports: import linecode
+    make: linecode.correlate_symbol_seq_tag_${type.fcn}(${symbols}, ${threshold}, ${tagname})
+    callbacks:
+    - set_symbols(${symbols})
+    - set_threshold(${threshold})
+    - set_tagname(${tagname})
+
+cpp_templates:
+    includes: ['#include <gnuradio/linecode/correlate_symbol_seq_tag_${type.fcn}.h>']
+    declarations: 'linecode::correlate_symbol_seq_tag_${type.fcn}::sptr ${id};'
+    make: |-
+        this->${id} = linecode::correlate_symbol_seq_tag_${type.fcn}::make(
+            ${symbols},
+            ${threshold},
+            ${tagname});
+    link: ['gnuradio::gnuradio-linecode']
+    callbacks:
+    - set_symbols(${symbols})
+    - set_threshold(${threshold})
+    - set_tagname(${tagname})
+
+file_format: 1

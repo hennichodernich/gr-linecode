@@ -9,5 +9,5 @@ install(FILES
     linecode_softuart_rx.block.yml
     linecode_softuart_tx.block.yml
     linecode_diff_manch_dec.block.yml
-    DESTINATION share/gnuradio/grc/blocks
+    linecode_correlate_symbol_seq_tag_xx.block.yml DESTINATION share/gnuradio/grc/blocks
 )
