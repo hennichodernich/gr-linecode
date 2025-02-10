@@ -101,7 +101,8 @@ void correlate_symbol_seq_tag_ff_impl::_set_threshold(float threshold)
     float corr = 0;
     for (size_t i = 0; i < d_symbols.size(); i++)
         corr += abs(d_symbols[i] * d_symbols[i]);
-    d_thresh = threshold * corr * corr;
+    //d_thresh = threshold * corr * corr;
+    d_thresh = threshold * corr;
     
 }
 
@@ -131,19 +132,21 @@ int correlate_symbol_seq_tag_ff_impl::work(int noutput_items,
     d_filter.filter(noutput_items, &in[hist_len], corr);
     // Find the magnitude squared of the correlation
     //volk_32fc_magnitude_squared_32f(&d_corr_mag[0], corr, noutput_items);
-    volk_32f_x2_multiply_32f(&d_corr_mag[0], corr, corr, noutput_items);
+    //volk_32f_x2_multiply_32f(&d_corr_mag[0], corr, corr, noutput_items);
     
     for (int i = 0; i < noutput_items; i++) {
         out[i] = in[i];
 
-        if (d_corr_mag[i] > d_thresh) {
+        //if (d_corr_mag[i] > d_thresh) {
+        if (corr[i] > d_thresh) {
             GR_LOG_DEBUG(d_logger,
                          boost::format("writing tag at sample %llu") %
-                             (abs_out_sample_cnt + i));
+                             (abs_out_sample_cnt + i + 1));
             add_item_tag(0,                      // stream ID
-                         abs_out_sample_cnt + i, // sample
+                         abs_out_sample_cnt + i + 1, // sample
                          d_key,                  // frame info
-                         pmt::from_float(d_corr_mag[i]), // data
+                         //pmt::from_float(d_corr_mag[i]), // data
+                         pmt::from_float(corr[i]), // data
                          d_me                    // block src id
             );
         }
